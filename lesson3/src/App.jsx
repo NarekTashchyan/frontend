@@ -40,7 +40,7 @@ function App(props) {
       <div id="timeline">
         {photos.map((photo, id) => {
           let style = id == index ? 'active':""
-          return <img src={photo.url} className={style} />
+          return <img src={photo.url} className={style} onClick={() => setIndex(photos.indexOf(photo))}/>
         })}
       </div>
     </div>
