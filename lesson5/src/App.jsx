@@ -19,9 +19,11 @@ function App() {
     if (basket.includes(item)){
       const index = basket.findIndex(elm => elm === item)
       basket[index].count += 1
+      basket[index].subtotal = basket[index].count * basket[index].price
       setBasket([...basket])
     }else{
       item.count = 1
+
       setBasket([...basket, item])
     }
     
@@ -30,6 +32,7 @@ function App() {
     const item = products.find(product => product.id === id)
     const index = basket.findIndex(elm => elm === item)
     basket[index].count += 1
+    basket[index].subtotal = basket[index].count * basket[index].price
     setBasket([...basket])
   }
   function removeCount(id){
@@ -47,11 +50,20 @@ function App() {
     const item = products.find(product => product.id === id)
     setBasket(basket.filter(elm => elm !== item))
   }
+  function sale(){
+    for (let i in basket){
+      if (basket[i].count >= 3){
+        basket[i].subtotal = (basket[i].count - 1) * basket[i].price
+      }
+    }
+    basket.sale = true
+    setBasket([...basket])
+  }
   return (
     <>
       <div className='list'>
         <ProductList items={products} onMove={addBasket}></ProductList>
-        <Basket items={basket} onAdd={addCount} onRemove={removeCount} onDelete={removeItem}></Basket>
+        <Basket items={basket} onAdd={addCount} onRemove={removeCount} onDelete={removeItem} onSale={sale}></Basket>
       </div>
     </>
   )
