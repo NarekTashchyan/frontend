@@ -1,14 +1,18 @@
-export const BasketItem = ({name, price, count, onAdd, onRemove, onDelete, id, subtotal}) => {
-    return <tr>
-        <td>{name}</td>
-        <td>{price}</td>
-        <td>{count}</td>
-        <td>{count > 2 ? subtotal || count * price : count * price}</td>
-        <td>
-            <button onClick={() => onAdd(id)}>+</button>
-            <button onClick={() => onRemove(id)}>-</button>
-            <button onClick={() => onDelete(id)}>X</button>
-
-        </td>
-    </tr>
+import React, { useContext } from "react";
+import { ShopContext } from "../context";
+export const BasketItem = ({ id, name, price, count}) => {
+    const { dispatch } = useContext(ShopContext)
+    return (
+        <tr>
+            <td>{name}</td>
+            <td>{price}</td>
+            <td>{count}</td>
+            <td>{Number(count) * Number(price)}</td>
+            <td>
+                <button onClick={() => dispatch({ type:"ADD_COUNT", payload:id})}>Add</button>
+                <button onClick={() => dispatch({ type: "REMOVE_COUNT", payload: id })}>Remove</button>
+                <button onClick={() => dispatch({ type: "REMOVE_ITEM", payload: id })}>Delete</button>
+            </td>
+        </tr>
+    )
 }

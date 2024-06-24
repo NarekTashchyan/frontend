@@ -1,13 +1,10 @@
 import { useState } from "react";
+import { useContext } from "react";
+import { ShopContext } from "../context";
 import { BasketItem } from "./BasketItem"
 
-export const Basket = ({items, onAdd, onRemove, onDelete, onSale, sale=false}) => {
-    const [isSale, setIsSale] = useState(sale);
-
-    const handleSaleClick = () => {
-        setIsSale(true);
-        onSale();
-    };
+export const Basket = () => {
+    const {state:{basket}} = useContext(ShopContext)
     return <div>
         <table>
             <thead>
@@ -17,18 +14,12 @@ export const Basket = ({items, onAdd, onRemove, onDelete, onSale, sale=false}) =
                     <th>Count</th>
                     <th>Subtotal</th>
                     <th>Actions</th>
-                    {
-                            !isSale && (
-                                <th>
-                                    <button onClick={handleSaleClick}>sale</button>
-                                </th>
-                            )
-                        }
+                    <th>Total {basket.length === 0 ? 0 :basket.reduce((a, b) => a + b.price * b.count, 0)} $</th>
                 </tr>
             </thead>
             <tbody>
                 {
-                    items.map(item => <BasketItem key={item.id}{...item} onAdd={onAdd} onRemove={onRemove} onDelete={onDelete} onSale={onSale}/>)
+                    basket.map(item => <BasketItem key={item.id}{...item}/>)
                 }
             </tbody>
         </table>

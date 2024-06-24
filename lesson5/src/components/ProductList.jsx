@@ -1,12 +1,18 @@
-import { ProductItem } from "./ProductItem"
-export const ProductList = ({ items , onMove}) => {
-    return <div>
-        <h3>Product List</h3>
-        <div className="list">
+import React, { useContext } from "react";
+import { ShopContext } from "../context";
+import { ProductItem } from "./ProductItem";
+
+export const ProductList = () => {
+    const {state:{products}} = useContext(ShopContext)
+
+    return (
+        <div>
             {
-                items.map(item => <ProductItem key={item.id} {...item} onMove={onMove}/>)
+                products.map(item => <ProductItem key={item.id} {...item} />)
             }
         </div>
-
-    </div>
+            
+    );
 }
+
+export default ProductList;
