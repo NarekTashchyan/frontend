@@ -1,0 +1,21 @@
+import { useContext } from "react";
+import { ToDoContext } from "../lib/context";
+import { ToDoItem } from "./ToDoItem";
+
+export const List: React.FC = () => {
+    const context = useContext(ToDoContext);
+
+    if (!context) {
+        throw new Error("ToDoContext not found. Ensure that List is within ToDoContext.Provider.");
+    }
+
+    const { state } = context;
+
+    return (
+        <div className="list">
+            {
+                state.todos.map((item) => <ToDoItem key={item.id} todo={item} />)
+            }
+        </div>
+    );
+};
